@@ -12,7 +12,27 @@ dotenv.config({ path: path.join(__dirname, ".env") });
 const app = express();
 const _dirname = __dirname;
 
-app.use(cors({ origin: "https://bit-ly-clone.onrender.com" }));
+// Trust proxy for secure cookies when behind Render/HTTPS
+app.set("trust proxy", 1);
+
+// CORS: allow Render frontend and local dev
+const allowedOrigins = new Set([
+  process.env.FRONTEND_ORIGIN,
+  "https://bit-ly-clone.onrender.com",
+].filter(Boolean));
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.has(origin)) return callback(null, true);
+    return callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: "Content-Type,Authorization,refresh_token",
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -49,15 +69,13 @@ app.get("/:urlCode", async (req, res) => {
 
 // ------------------ SPA FALLBACK (LAST) ------------------
 app.get(/.*/, (req, res, next) => {
-  // let API, health, favicon fall through to 404 or other handlers
-  if (
-    req.originalUrl.startsWith("/api") ||
-    req.originalUrl.startsWith("/healthz") ||
-    req.originalUrl.startsWith("/favicon")
-  ) {
-    return next();
+  const first = req.originalUrl.split("/")[1];
+  const reserved = new Set(["api", "healthz", "favicon.ico"]);
+  // If not API/health/static file and not empty, serve the React app
+  if (!reserved.has(first) && !first.includes(".")) {
+    return res.sendFile(path.join(distPath, "index.html"));
   }
-  return res.sendFile(path.join(distPath, "index.html"));
+  return next();
 });
 
 // ------------------ START SERVER ------------------
