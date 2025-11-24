@@ -12,7 +12,7 @@ dotenv.config({ path: path.join(__dirname, ".env") });
 const app = express();
 const _dirname = __dirname;
 
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({ origin: "https://bit-ly-clone.onrender.com" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
