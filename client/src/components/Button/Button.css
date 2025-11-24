@@ -1,0 +1,43 @@
+.button{
+	padding: 10px 14px;
+	border: 1px solid transparent;
+	background: var(--primary);
+	font-size: 16px;
+	cursor: pointer;
+	color:var(--white);
+	border-radius:6px;
+	font-family: var(--font-family);
+	transition: all .2s ease-in-out;
+}
+
+.button__primary{
+	background: var(--primary);
+	color:var(--white);
+}
+.button__primary:hover{
+	background: var(--primaryHover);
+	color:var(--white);
+}
+.button__outlined-primary{
+	background-color: transparent;
+	border: 1px solid var(--primary);
+	color:var(--primary)
+}
+.button__outlined-primary:hover{
+	background: var(--primary);
+	color:var(--white);
+}
+.button__outlined-secondary{
+	background-color: transparent;
+	border: 1px solid var(--lightGrey);
+	color:var(--lightGrey)
+}
+.button__outlined-secondary:hover{
+	border: 1px solid var(--primary);
+	color:var(--primary)
+}
+
+.button:disabled{
+	opacity:.6;
+	cursor: not-allowed;
+}

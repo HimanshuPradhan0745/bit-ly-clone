@@ -1,0 +1,38 @@
+.main-table{
+	width:100%;
+	margin:auto;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+.main-table thead th{
+    background-color: var(--lightBackground);
+    color:var(--darkBlack);
+    font-weight: 500;
+    font-size: 14px;
+    text-align: left;
+    padding: 12px 14px;
+}
+.main-table tbody tr{
+    color:var(--darkBlack);
+    background: var(--muted);
+    box-shadow: var(--shadow);
+}
+.main-table tbody tr:hover{
+    background: #eef3ff;
+}
+.main-table td{
+    font-weight: 400;
+    padding: 12px 14px;
+}
+
+.mobile-table thead{
+    margin-bottom:20px;
+}
+.mobile-table tr{
+    display: flex;
+    align-items: center;
+    padding:5px;
+}
+.mobile-table h3{
+    margin-right:10px;
+}
